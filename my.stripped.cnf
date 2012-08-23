@@ -1,0 +1,92 @@
+# /etc/mysql/my.cnf
+
+# ----------------------------------------------------------------------
+#
+#            DO WHAT THE FUCK YOU WANT TO PUBLIC LICENSE
+#                    Version 2, December 2004
+# 
+# Copyright (c) 2012 Richard Fussenegger <richard@fussenegger.info>
+#
+# Everyone is permitted to copy and distribute verbatim or modified
+# copies of this license document, and changing it is allowed as long
+# as the name is changed.
+#
+#            DO WHAT THE FUCK YOU WANT TO PUBLIC LICENSE
+#   TERMS AND CONDITIONS FOR COPYING, DISTRIBUTION AND MODIFICATION
+#
+#  0. You just DO WHAT THE FUCK YOU WANT TO.
+#
+# ----------------------------------------------------------------------
+
+[client]
+default_character_set       = utf8
+socket                      = /var/run/mysqld/mysqld.sock
+
+[mysqld_safe]
+log_error                   = /var/log/mysql/error.log
+nice                        = 0
+skip_syslog                 = true
+socket                      = /var/run/mysqld/mysqld.sock
+
+[mysqld]
+back_log                    = 32000
+basedir                     = /usr
+character_set_server        = utf8
+collation_server            = utf8_general_ci
+concurrent_insert           = 2
+connect_timeout             = 5
+datadir                     = /var/lib/mysql
+default_storage_engine      = InnoDB
+enable_feedback             = true
+expire_logs_days            = 10
+innodb_buffer_pool_size     = 256M
+innodb_file_per_table       = true
+innodb_flush_method         = O_DIRECT
+innodb_flush_neighbor_pages = cont
+innodb_io_capacity          = 400
+innodb_log_buffer_size      = 8M
+innodb_open_files           = 400
+join_buffer_size            = 4M
+key_buffer_size             = 128M
+large_pages                 = true
+lc_messages                 = en_US
+lc_messages_dir             = /usr/share/mysql
+log_bin                     = /var/log/mysql/mariadb-bin
+log_bin_index               = /var/log/mysql/mariadb-bin.index
+log_slow_rate_limit         = 1000
+log_slow_verbosity          = query_plan
+log_warnings                = 2
+long_query_time             = 10
+max_allowed_packet          = 16M
+max_binlog_size             = 100M
+max_connections             = 100
+max_heap_table_size         = 32M
+myisam_recover_options      = BACKUP
+myisam_sort_buffer_size     = 512M
+pid_file                    = /var/run/mysqld/mysqld.pid
+query_cache_limit           = 128K
+query_cache_size            = 64M
+query_cache_type            = DEMAND
+read_buffer_size            = 2M
+read_rnd_buffer_size        = 1M
+skip_name_resolve           = true
+skip_networking             = true
+slow_query_log_file         = /var/log/mysql/slow.log
+socket                      = /var/run/mysqld/mysqld.sock
+sort_buffer_size            = 4M
+table_cache                 = 400
+thread_cache_size           = 128
+tmp_table_size              = 32M
+tmpdir                      = /tmp
+wait_timeout                = 600
+user                        = mysql
+
+[mysqldump]
+quick                       = true
+quote_names                 = true
+max_allowed_packet          = 16M
+
+[isamchk]
+key_buffer                  = 16M
+
+!includedir /etc/mysql/conf.d/
