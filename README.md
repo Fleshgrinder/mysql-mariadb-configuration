@@ -2,7 +2,7 @@
 This is my personal MariaDB 5.5 configuration on my Debian “Squeeze” 6 servers.
 
 ## Installing MariaDB
-I'm using the (switch.ch mirror)[http://www.switch.ch/] in my `sources.list`:
+I'm using the [switch.ch mirror](http://www.switch.ch/) in my `sources.list`:
 
 ```shell
 # Add mirror.switch.ch to the sources.list
@@ -32,7 +32,7 @@ adduser --no-create-home --disabled-password --disabled-login mysqld
 # Install MariaDB
 aptitude install mariadb-server-5.5
 ```
-Have a look at the (MariaDB repository configuration tool)[http://downloads.mariadb.org/MariaDB/repositories/] to find a repository near your server.
+Have a look at the [MariaDB repository configuration tool](http://downloads.mariadb.org/MariaDB/repositories/) to find a repository near your server.
 
 ## Hugepages
 My configuration relies on hugepages support. You can use the configuration without it, the server will work, but it will log an error.
