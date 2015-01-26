@@ -1,5 +1,5 @@
 # mysql
-This is my personal MariaDB 5.5 configuration on my Debian “Squeeze” 6 servers.
+This is my personal MariaDB 5.5 configuration on my Debian ï¿½Squeezeï¿½ 6 servers.
 
 ## Installing MariaDB
 I'm using the [switch.ch mirror](http://www.switch.ch/) in my `sources.list`:
@@ -32,10 +32,13 @@ adduser --no-create-home --disabled-password --disabled-login mysqld
 # Install MariaDB
 aptitude install mariadb-server-5.5
 ```
-Have a look at the [MariaDB repository configuration tool](http://downloads.mariadb.org/MariaDB/repositories/) to find a repository near your server.
+Have a look at the [MariaDB repository configuration tool](http://downloads.mariadb.org/MariaDB/repositories/) to find a 
+repository near your server.
 
 ## Hugepages
-My configuration relies on hugepages support. You can use the configuration without it, the server will work, but it will log an error.
+My configuration relies on hugepages support. You can use the configuration without it, the server will work, but it 
+will log an error.
+
 ### Activating hugepages
 ```shell
 # Create backup of default system configuration
@@ -64,7 +67,9 @@ sysctl -p ~/hugepages.conf
 ```
 
 ## Create new init script
-In order to be able to use the hugepages you have to raise the ulimit for the mysqld user. I included a shell script which creates that new init script for you.
+In order to be able to use the hugepages you have to raise the ulimit for the mysqld user. I included a shell script 
+which creates that new init script for you.
+
 ```shell
 # Change to the cloned github repo
 cd /path/to/the/cloned/github/repo
@@ -73,7 +78,14 @@ chmod 770 create-mariadb-init-script.sh
 # And simply execute it
 ./create-mariadb-init-script.sh
 ```
+
 Afterwards you can start/restart/stop your MariaDB server via `/etc/init.d/mariadb`.
 
 ## Questions?
-Please bare in mind that this is an advanced configuration targeted towards user who have experience in administrating a server. But if you have any questions feel free to open an issue in the wiki of this repo.
+Please bare in mind that this is an advanced configuration targeted towards user who have experience in administrating a 
+server. But if you have any questions feel free to open an issue in the wiki of this repo.
+
+## License
+> This is free and unencumbered software released into the public domain.
+>
+> For more information, please refer to <http://unlicense.org>

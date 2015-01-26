@@ -25,52 +25,45 @@
 # ------------------------------------------------------------------------------
 
 # ------------------------------------------------------------------------------
-# Create new init script for MariaDB after hugepages have been activated.
-#
-# This init script raises the limit for shared memory to unlimited. Otherwise
-# the MariaDB process is not able to lock the hugepages for itself. After
-# raising the limit the normal init script is called. We create a separate init
-# script to not break the normal apt / aptitude upgrade process of MariaDB
-# (which includes the normal mysql init script)!
+# Completely purge MariaDB including all installed databases.
 #
 # AUTHOR:    Richard Fussenegger <richard@fussenegger.info>
 # COPYRIGHT: 2015 Richard Fussenegger
 # LICENSE:   http://unlicense.org/ PD
 # ------------------------------------------------------------------------------
 
-# Tell the user that we are goin to create a new init script
-printf -- 'Creating new MariaDB inti script at /etc/init.d/mariadb'
+user_abort()
+{
+    printf -- 'Aborting script per user request.\n'
+    exit 64
+}
 
-# Create the actual init script
-cat > /etc/init.d/mariadb << EOT
-#!/bin/sh
+readonly QUESTION='This will purge MariaDB from the system, including ALL databases, are you sure?'
+readonly DIALOG=$(which dialog whiptail)
+if [ "${DIALOG}" = '' ]
+then
+    REPLY='n'
+    printf -- '%s' "${QUESTION}"
+    read -r REPLY
+    if [ "${REPLY}" != 'y' ] && [ "${REPLY}" != 'Y' ]
+        then user_abort
+    fi
+else
+    "${DIALOG}" --title 'Purge MariaDB' --defaultno --yesno "${QUESTION}" 0 0
+    if [ ${?} -ne 0 ]
+        then user_abort
+    fi
+fi
 
-### BEGIN INIT INFO
-# Provides:          MariaDB
-# Required-Start:    $remote_fs $syslog
-# Required-Stop:     $remote_fs $syslog
-# Should-Start:      $network $named $time
-# Should-Stop:       $network $named $time
-# Default-Start:     2 3 4 5
-# Default-Stop:      0 1 6
-# Short-Description: Start and stop the MariaDB database server daemon
-# Description:       Controls the main MariaDB database server daemon "mysqld"
-#                    and its wrapper script "mysqld_safe".
-### END INIT INFO
+printf -- 'Purging MariaDB from the system, including ALL databases!\n'
 
-ulimit -l unlimited
-sh /etc/init.d/mysql "${1:-'\'''\''}"
+apt-get --yes -- purge mariadb-server
+apt-get --yes -- autoremove
+apt-get --yes -- autoclean
+rm --recursive --force -- /etc/mysql /var/lib/mysql /var/log/mysql /var/log/mysql.* /etc/init.d/mysql
 
-EOT
+if [ -e /etc/apt/sources.list.d/mariadb.list ]
+    then rm --force -- /etc/apt/sources.list.d/mariadb.list
+fi
 
-# Change permissions so it is executable
-chmod -- 755 /etc/init.d/mariadb
-
-# Remove the old init script from the system startup
-update-rc.d -f mysql remove
-
-# Add our new init script to the system startup
-update-rc.d mariadb defaults
-
-# Tell the user that we are done
-printf -- '[ok] New init script created and added to system startup.'
+printf -- 'MariaDB has been completely purged from the system!\n'
