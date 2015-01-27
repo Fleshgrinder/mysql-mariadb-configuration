@@ -85,6 +85,11 @@ Afterwards you can start/restart/stop your MariaDB server via `/etc/init.d/maria
 Please bare in mind that this is an advanced configuration targeted towards user who have experience in administrating a 
 server. But if you have any questions feel free to open an issue in the wiki of this repo.
 
+## Weblinks
+Other repositories of interest:
+
+* [MySQL/MariaDB Toolbox](https://github.com/Fleshgrinder/mysql-mariadb-toolbox)
+
 ## License
 > This is free and unencumbered software released into the public domain.
 >
